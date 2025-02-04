@@ -1,49 +1,46 @@
+// src/pages/portfolio/index.astro
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
 
-const title = "BlueRoad - Creative Digital Solutions";
+const portfolioItems = await getCollection('portfolio');
+const sortedItems = portfolioItems.sort((a, b) => 
+  new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
 ---
 
-<Layout title={title}>
-  <Header />
-  
-  <!-- Hero Section -->
-  <section class="py-20">
-    <div class="text-center">
-      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-        Creative Digital Solutions
-      </h1>
-      <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-        We create stunning 3D visualizations, interactive experiences, and video content for your business
-      </p>
-      <a href="/contact" class="inline-block bg-brand text-white px-8 py-3 rounded-md hover:bg-brand-dark transition-colors">
-        Get Started
-      </a>
+<Layout title="Portfolio">
+  <div class="max-w-7xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-8">Portfolio</h1>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {sortedItems.map((item) => (
+        <article class="group">
+          <a href={`/portfolio/${item.slug}`} class="block">
+            <div class="relative overflow-hidden rounded-lg">
+              <img 
+                src={item.data.thumbnail} 
+                alt={item.data.title}
+                class="w-full aspect-video object-cover transition transform group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition"></div>
+            </div>
+            <div class="mt-4">
+              <h2 class="text-xl font-semibold group-hover:text-blue-600">
+                {item.data.title}
+              </h2>
+              {item.data.category && (
+                <span class="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded mt-2 inline-block">
+                  {item.data.category}
+                </span>
+              )}
+              <p class="text-gray-600 mt-2">{item.data.description}</p>
+              {item.data.client && (
+                <p class="text-sm text-gray-500 mt-2">Client: {item.data.client}</p>
+              )}
+            </div>
+          </a>
+        </article>
+      ))}
     </div>
-  </section>
-
-  <!-- Services Section -->
-  <section class="py-20 bg-gray-50 dark:bg-gray-800">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-12">Our Services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-sm">
-          <h3 class="text-xl font-semibold mb-4">3D Visualization</h3>
-          <p class="text-gray-600 dark:text-gray-400">High-quality renders for architecture and product visualization</p>
-        </div>
-        <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-sm">
-          <h3 class="text-xl font-semibold mb-4">Unreal Engine</h3>
-          <p class="text-gray-600 dark:text-gray-400">Interactive walkthroughs and real-time 3D experiences</p>
-        </div>
-        <div class="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-sm">
-          <h3 class="text-xl font-semibold mb-4">Video Production</h3>
-          <p class="text-gray-600 dark:text-gray-400">Professional video content for marketing and presentations</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <Footer />
+  </div>
 </Layout>
