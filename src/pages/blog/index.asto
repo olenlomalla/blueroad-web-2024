@@ -1,40 +1,48 @@
+// src/pages/blog/index.astro
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
 
-export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-  return blogEntries.map(entry => ({
-    params: { slug: entry.slug }, 
-    props: { entry },
-  }));
-}
-
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
 ---
 
-<Layout title={entry.data.title}>
-  <Header />
-  
-  <main class="max-w-4xl mx-auto px-4 py-12">
-    <article class="prose dark:prose-invert lg:prose-lg mx-auto">
-      <h1>{entry.data.title}</h1>
-      <div class="text-gray-600 dark:text-gray-400 mb-8">
-        {new Date(entry.data.pubDate).toLocaleDateString()}
-      </div>
-      {entry.data.image && (
-        <img 
-          src={entry.data.image} 
-          alt={entry.data.title}
-          class="w-full h-auto rounded-lg mb-8"
-        />
-      )}
-      <Content />
-    </article>
-  </main>
-
-  <Footer />
+<Layout title="Blog">
+  <div class="max-w-4xl mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-8">Blog Posts</h1>
+    <div class="grid gap-8">
+      {sortedPosts.map((post) => (
+        <article class="border-b pb-8">
+          <div class="flex gap-6">
+            {post.data.image && (
+              <img 
+                src={post.data.image} 
+                alt={post.data.title}
+                class="w-48 h-32 object-cover rounded"
+              />
+            )}
+            <div>
+              <h2 class="text-xl font-semibold mb-2">
+                <a href={`/blog/${post.slug}`} class="hover:text-blue-600">
+                  {post.data.title}
+                </a>
+              </h2>
+              {post.data.category && (
+                <span class="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                  {post.data.category}
+                </span>
+              )}
+              <p class="text-gray-600 mt-2">{post.data.description}</p>
+              <div class="mt-4 flex gap-4 text-sm text-gray-500">
+                {post.data.author && <span>{post.data.author}</span>}
+                <time>{new Date(post.data.pubDate).toLocaleDateString()}</time>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
 </Layout>
