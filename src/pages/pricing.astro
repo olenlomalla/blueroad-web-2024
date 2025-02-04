@@ -1,1 +1,185 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PricingCard from '../components/PricingCard.astro';
 
+const title = "Pricing - BlueRoad";
+
+const visualizationPricing = [
+  {
+    title: "Essential",
+    price: "€99",
+    features: [
+      "Standard quality renders",
+      "2 revision rounds",
+      "5-day delivery",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "Professional",
+    price: "€149",
+    features: [
+      "Premium quality renders",
+      "3 revision rounds",
+      "Advanced materials",
+      "50% advance payment"
+    ],
+    isHighlighted: true
+  },
+  {
+    title: "Premium",
+    price: "€199",
+    features: [
+      "Architectural quality",
+      "Unlimited revisions",
+      "Priority support",
+      "50% advance payment"
+    ]
+  }
+];
+
+const unrealPricing = [
+  {
+    title: "Basic Walkthrough",
+    price: "€2,499",
+    unit: "/project",
+    features: [
+      "Up to 100m² space",
+      "Basic lighting & materials",
+      "Standard navigation",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "Professional Tour",
+    price: "€4,999",
+    unit: "/project",
+    features: [
+      "Up to 300m² space",
+      "Advanced lighting",
+      "Custom interactions",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "Enterprise Solution",
+    price: "Custom",
+    unit: "",
+    features: [
+      "Unlimited space",
+      "Real-time configuration",
+      "Multi-user support",
+      "Custom payment terms"
+    ]
+  }
+];
+
+const videoPricing = [
+  {
+    title: "Product Video",
+    price: "€999",
+    unit: "/video",
+    features: [
+      "30-60 seconds",
+      "Basic editing",
+      "2 revision rounds",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "Commercial Video",
+    price: "€2,999",
+    unit: "/video",
+    features: [
+      "60-180 seconds",
+      "Advanced editing",
+      "Custom music",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "Corporate Video",
+    price: "€4,999",
+    unit: "/video",
+    features: [
+      "3-5 minutes",
+      "Complex production",
+      "Full creative direction",
+      "50% advance payment"
+    ]
+  }
+];
+---
+
+<Layout title={title}>
+  <Header />
+  
+  <main class="py-12">
+    <!-- 3D Visualization -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-center mb-8">3D Visualization</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+        {visualizationPricing.map((plan) => (
+          <PricingCard {...plan} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Unreal Engine -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-center mb-8">Unreal Engine Interactive</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+        {unrealPricing.map((plan) => (
+          <PricingCard {...plan} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Video Production -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold text-center mb-8">Video Production</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+        {videoPricing.map((plan) => (
+          <PricingCard {...plan} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section class="bg-gray-50 dark:bg-gray-800 py-12 mt-16">
+      <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8">Additional Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">Rush Delivery</h3>
+            <ul class="space-y-2">
+              <li>3-day delivery: +50% per item</li>
+              <li>24h delivery: +100% per item</li>
+              <li class="text-red-600">Rush orders: 100% prepayment</li>
+            </ul>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">Volume Discounts</h3>
+            <ul class="space-y-2">
+              <li>5+ items: 15% off</li>
+              <li>10+ items: 25% off</li>
+              <li>20+ items: Custom quote</li>
+            </ul>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">Payment Terms</h3>
+            <ul class="space-y-2">
+              <li>Standard: 50% advance</li>
+              <li>Rush orders: 100% prepayment</li>
+              <li>Finnish B2B: 14-day terms</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
