@@ -1,0 +1,22 @@
+# netlify.toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20.0.0"
+
+[[redirects]]
+  from = "https://hotsnow.fi/*"
+  to = "https://hotsnow.blueroad.ee/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://zarender.com/*"
+  to = "https://zarender.blueroad.ee/:splat"
+  status = 301
+  force = true
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
