@@ -1,1 +1,52 @@
+---
+const currentPath = Astro.url.pathname;
+---
 
+<header class="bg-white dark:bg-gray-900 shadow">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="flex items-center">
+      <a href="/" class="text-xl font-semibold text-gray-900 dark:text-white">
+        BlueRoad
+      </a>
+    </div>
+
+    <div class="hidden md:flex items-center space-x-8">
+      <a 
+        href="/portfolio" 
+        class={`text-gray-700 dark:text-gray-300 hover:text-brand ${
+          currentPath.startsWith('/portfolio') ? 'text-brand' : ''
+        }`}
+      >
+        Portfolio
+      </a>
+      <a 
+        href="/blog" 
+        class={`text-gray-700 dark:text-gray-300 hover:text-brand ${
+          currentPath.startsWith('/blog') ? 'text-brand' : ''
+        }`}
+      >
+        Blog
+      </a>
+      <a 
+        href="/pricing" 
+        class={`text-gray-700 dark:text-gray-300 hover:text-brand ${
+          currentPath.startsWith('/pricing') ? 'text-brand' : ''
+        }`}
+      >
+        Pricing
+      </a>
+      <a 
+        href="/contact" 
+        class="px-4 py-2 rounded-md bg-brand text-white hover:bg-brand-dark transition-colors"
+      >
+        Contact
+      </a>
+    </div>
+
+    <button class="md:hidden p-2" aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+</header>
