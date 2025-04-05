@@ -3,7 +3,7 @@ import { ContentSource, ContentType } from '../../scripts/content-retriever';
 export const siteConfigs = {
   tilda: {
     source: ContentSource.TILDA,
-    baseUrl: 'https://blueroad.ee',
+    baseUrl: 'https://blueroadnext.netlify.app',
     contentTypes: [ContentType.BLOG, ContentType.PORTFOLIO],
     selectors: {
       title: ['.t-entry__title', '.t-title h1', '.t-title', 'h1'],
