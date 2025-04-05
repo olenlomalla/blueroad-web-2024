@@ -65,6 +65,13 @@ export default defineConfig({
       portfolio: {
         type: 'content',
         directory: 'src/content/portfolio',
+        schema: {
+          title: { type: 'string', required: true },
+          date: { type: 'date', required: true },
+          description: { type: 'string', required: true },
+          tags: { type: 'array', items: { type: 'string' } },
+          draft: { type: 'boolean', default: false },
+        },
       },
       blog: {
         type: 'content',

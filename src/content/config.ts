@@ -14,59 +14,30 @@ const imageRequirements = {
   }
 };
 
-const portfolio = defineCollection({
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.string().transform((str) => new Date(str)),
-    client: z.string(),
-    category: z.string(),
-    tags: z.array(z.string()),
-    image: z.string().refine((val) => {
-      return val.startsWith('/') || val.startsWith('http') || val.startsWith('https');
-    }, {
-      message: 'Image path must be absolute (start with /) or be a URL'
-    }),
-    gallery: z.object({
-      design: z.string().refine((val) => {
-        return val.startsWith('/') || val.startsWith('http') || val.startsWith('https');
-      }, {
-        message: 'Image path must be absolute (start with /) or be a URL'
-      }),
-      prototype: z.string().refine((val) => {
-        return val.startsWith('/') || val.startsWith('http') || val.startsWith('https');
-      }, {
-        message: 'Image path must be absolute (start with /) or be a URL'
-      }),
-      details: z.string().refine((val) => {
-        return val.startsWith('/') || val.startsWith('http') || val.startsWith('https');
-      }, {
-        message: 'Image path must be absolute (start with /) or be a URL'
-      }),
-      lifestyle: z.string().refine((val) => {
-        return val.startsWith('/') || val.startsWith('http') || val.startsWith('https');
-      }, {
-        message: 'Image path must be absolute (start with /) or be a URL'
-      })
-    })
-  })
-});
-
 const blog = defineCollection({
+  type: 'content',
   schema: z.object({
     title: z.string(),
+    date: z.date(),
     description: z.string(),
-    pubDate: z.string().datetime(),
-    author: z.string(),
-    image: z.string().refine((val) => {
-      return val.startsWith('/') || val.startsWith('http') || val.startsWith('https');
-    }, {
-      message: 'Image path must be absolute (start with /) or be a URL'
-    }),
-    tags: z.array(z.string()),
-    category: z.string()
-  })
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().default(false),
+  }),
 });
 
-export const collections = { portfolio, blog };
+const portfolio = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.date(),
+    description: z.string(),
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = {
+  blog,
+  portfolio,
+};
 export { imageRequirements };
