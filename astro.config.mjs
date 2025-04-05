@@ -20,11 +20,11 @@ export default defineConfig({
       description: 'BlueRoad - Web Development and Design',
       site: 'https://blueroad.ee',
       items: async () => {
-        const posts = await getCollection('blog');
-        return posts.map((post) => ({
-          title: post.data.title,
-          pubDate: post.data.date,
-          description: post.data.description,
+        const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}');
+        return Object.entries(posts).map(([_, post]) => ({
+          title: post.frontmatter.title,
+          pubDate: post.frontmatter.date,
+          description: post.frontmatter.description,
           link: `/blog/${post.slug}/`,
         }));
       },
@@ -85,6 +85,13 @@ export default defineConfig({
       blog: {
         type: 'content',
         directory: 'src/content/blog',
+        schema: {
+          title: { type: 'string', required: true },
+          date: { type: 'date', required: true },
+          description: { type: 'string', required: true },
+          tags: { type: 'array', items: { type: 'string' } },
+          draft: { type: 'boolean', default: false },
+        },
       },
     },
   },
