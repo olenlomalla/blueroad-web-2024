@@ -14,7 +14,20 @@ export default defineConfig({
     mdx(),
     tailwind(),
     sitemap(),
-    rss(),
+    rss({
+      title: 'BlueRoad',
+      description: 'BlueRoad - Web Development and Design',
+      site: 'https://blueroad.ee',
+      items: async () => {
+        const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}');
+        return Object.entries(posts).map(([_, post]) => ({
+          link: post.url,
+          title: post.frontmatter.title,
+          pubDate: post.frontmatter.date,
+          description: post.frontmatter.description,
+        }));
+      },
+    }),
   ],
   redirects: {
     '/zarender': 'https://zarender.blueroad.ee',
