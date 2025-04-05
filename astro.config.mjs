@@ -5,6 +5,7 @@ import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
 
 export default defineConfig({
   site: 'https://blueroad.ee',
@@ -19,12 +20,12 @@ export default defineConfig({
       description: 'BlueRoad - Web Development and Design',
       site: 'https://blueroad.ee',
       items: async () => {
-        const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}');
-        return Object.entries(posts).map(([_, post]) => ({
-          link: post.url,
-          title: post.frontmatter.title,
-          pubDate: post.frontmatter.date,
-          description: post.frontmatter.description,
+        const posts = await getCollection('blog');
+        return posts.map((post) => ({
+          title: post.data.title,
+          pubDate: post.data.date,
+          description: post.data.description,
+          link: `/blog/${post.slug}/`,
         }));
       },
     }),
