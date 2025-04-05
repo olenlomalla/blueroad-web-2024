@@ -1,13 +1,21 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
-import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
+import rss from '@astrojs/rss';
 
 export default defineConfig({
-  site: 'https://blueroadnext.netlify.app',
-  integrations: [mdx(), tailwind(), react()],
+  site: 'https://blueroad.ee',
   output: 'static',
+  integrations: [
+    react(),
+    mdx(),
+    tailwind(),
+    sitemap(),
+    rss(),
+  ],
   redirects: {
     '/zarender': 'https://zarender.blueroad.ee',
     '/hotsnow': 'https://hotsnow.blueroad.ee'
@@ -17,6 +25,14 @@ export default defineConfig({
     host: true
   },
   vite: {
+    build: {
+      rollupOptions: {
+        external: ['jsdom', 'node-fetch', 'node-html-parser', 'turndown', 'sanitize-filename', 'gray-matter'],
+      },
+    },
+    optimizeDeps: {
+      exclude: ['jsdom', 'node-fetch', 'node-html-parser', 'turndown', 'sanitize-filename', 'gray-matter'],
+    },
     server: {
       watch: {
         usePolling: true
