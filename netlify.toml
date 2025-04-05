@@ -4,19 +4,57 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20.0.0"
+  NODE_VERSION = "18"
+  NEXT_TELEMETRY_DISABLED = "1"
 
 [[redirects]]
-  from = "https://hotsnow.fi/*"
-  to = "https://hotsnow.blueroad.ee/:splat"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Staging domain redirects
+[[redirects]]
+  from = "https://staging.blueroad.ee/*"
+  to = "https://blueroad.ee/:splat"
+  status = 200
+  force = true
+
+# Production domain redirects
+[[redirects]]
+  from = "https://hotsnow.blueroad.ee/*"
+  to = "https://blueroad.ee/blog/:splat"
   status = 301
   force = true
 
 [[redirects]]
-  from = "https://zarender.com/*"
-  to = "https://zarender.blueroad.ee/:splat"
+  from = "https://zarender.blueroad.ee/*"
+  to = "https://blueroad.ee/portfolio/:splat"
   status = 301
   force = true
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
+  package = "@netlify/plugin-nextjs"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Staging environment configuration
+[context.staging]
+  command = "npm run build:staging"
+  environment = { NODE_ENV = "staging" }
+
+# Production environment configuration
+[context.production]
+  command = "npm run build"
+  environment = { NODE_ENV = "production" }
