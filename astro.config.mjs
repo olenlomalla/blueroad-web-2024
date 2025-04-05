@@ -4,8 +4,6 @@ import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
 
 export default defineConfig({
   site: 'https://blueroad.ee',
@@ -15,26 +13,6 @@ export default defineConfig({
     mdx(),
     tailwind(),
     sitemap(),
-    rss({
-      title: 'BlueRoad',
-      description: 'BlueRoad - Web Development and Design',
-      site: 'https://blueroad.ee',
-      items: async () => {
-        const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}', { eager: true });
-        return Object.entries(posts)
-          .filter(([_, post]) => !post.frontmatter.draft)
-          .map(([path, post]) => {
-            const slug = path.split('/').pop()?.replace(/\.(md|mdx)$/, '');
-            return {
-              title: post.frontmatter.title,
-              pubDate: post.frontmatter.date,
-              description: post.frontmatter.description,
-              link: `/blog/${slug}/`,
-            };
-          })
-          .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
-      },
-    }),
   ],
   redirects: {
     '/zarender': 'https://zarender.blueroad.ee',
