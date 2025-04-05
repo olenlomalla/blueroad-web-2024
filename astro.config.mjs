@@ -20,16 +20,19 @@ export default defineConfig({
       description: 'BlueRoad - Web Development and Design',
       site: 'https://blueroad.ee',
       items: async () => {
-        const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}');
-        return Object.entries(posts).map(([path, post]) => {
-          const slug = path.split('/').pop()?.replace(/\.(md|mdx)$/, '');
-          return {
-            title: post.frontmatter.title,
-            pubDate: post.frontmatter.date,
-            description: post.frontmatter.description,
-            link: `/blog/${slug}/`,
-          };
-        });
+        const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}', { eager: true });
+        return Object.entries(posts)
+          .filter(([_, post]) => !post.frontmatter.draft)
+          .map(([path, post]) => {
+            const slug = path.split('/').pop()?.replace(/\.(md|mdx)$/, '');
+            return {
+              title: post.frontmatter.title,
+              pubDate: post.frontmatter.date,
+              description: post.frontmatter.description,
+              link: `/blog/${slug}/`,
+            };
+          })
+          .sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
       },
     }),
   ],
