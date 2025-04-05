@@ -1,14 +1,32 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { z } from 'zod';
+
+interface FormData {
+  siteType: string;
+  baseUrl: string;
+  contentTypes: string[];
+  selectors: {
+    title: string[];
+    date: string[];
+    content: string[];
+    images: string[];
+    author: string[];
+    description: string[];
+    category: string[];
+  };
+  urls: string[];
+  stagingMode: boolean;
+  stagingDomain: string;
+}
 
 const siteTypes = ['tilda', 'wordpress', 'custom'] as const;
 const contentTypes = ['blog', 'portfolio', 'case-studies'] as const;
 
 export default function OnboardingForm() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     siteType: 'tilda',
     baseUrl: '',
-    contentTypes: [] as string[],
+    contentTypes: [],
     selectors: {
       title: [''],
       date: [''],
@@ -49,13 +67,17 @@ export default function OnboardingForm() {
 
       setResults(data.results);
     } catch (err) {
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const addSelector = (field: keyof typeof formData.selectors) => {
+  const addSelector = (field: keyof FormData['selectors']) => {
     setFormData(prev => ({
       ...prev,
       selectors: {
@@ -150,7 +172,7 @@ export default function OnboardingForm() {
                   {index === selectors.length - 1 && (
                     <button
                       type="button"
-                      onClick={() => addSelector(field as keyof typeof formData.selectors)}
+                      onClick={() => addSelector(field as keyof FormData['selectors'])}
                       className="px-4 py-2 bg-blue-500 text-white rounded"
                     >
                       +

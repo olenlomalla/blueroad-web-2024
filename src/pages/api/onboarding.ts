@@ -1,4 +1,4 @@
-import { APIRoute } from 'astro';
+import type { APIRoute } from 'astro';
 import { z } from 'zod';
 import { ContentRetriever } from '../../../scripts/content-retriever';
 import { siteConfigs } from '../../config/sites.config';
@@ -88,7 +88,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message,
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
       }),
       {
         status: 400,

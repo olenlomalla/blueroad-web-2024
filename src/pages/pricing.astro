@@ -1,10 +1,88 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../components/shared/BaseLayout.astro';
 import PricingCard from '../components/PricingCard.astro';
 
 const title = "Pricing - BlueRoad";
+
+const webDevPricing = [
+  {
+    title: "Basic Website",
+    price: "€4,999",
+    unit: "/project",
+    features: [
+      "Up to 5 pages",
+      "Responsive design",
+      "Basic SEO setup",
+      "Contact form",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "Business Website",
+    price: "€9,999",
+    unit: "/project",
+    features: [
+      "Up to 15 pages",
+      "CMS integration",
+      "Advanced SEO",
+      "Custom features",
+      "50% advance payment"
+    ],
+    isHighlighted: true
+  },
+  {
+    title: "E-commerce",
+    price: "€14,999",
+    unit: "/project",
+    features: [
+      "Full online store",
+      "Payment integration",
+      "Inventory management",
+      "Order processing",
+      "50% advance payment"
+    ]
+  }
+];
+
+const designPricing = [
+  {
+    title: "UI Design",
+    price: "€2,999",
+    unit: "/project",
+    features: [
+      "Up to 5 key screens",
+      "Design system",
+      "Mobile responsive",
+      "2 revision rounds",
+      "50% advance payment"
+    ]
+  },
+  {
+    title: "UX/UI Package",
+    price: "€5,999",
+    unit: "/project",
+    features: [
+      "User research",
+      "Wireframes",
+      "Full UI design",
+      "Interactive prototype",
+      "50% advance payment"
+    ],
+    isHighlighted: true
+  },
+  {
+    title: "Brand Design",
+    price: "€3,999",
+    unit: "/project",
+    features: [
+      "Logo design",
+      "Brand guidelines",
+      "Color palette",
+      "Typography",
+      "50% advance payment"
+    ]
+  }
+];
 
 const visualizationPricing = [
   {
@@ -113,73 +191,134 @@ const videoPricing = [
 ];
 ---
 
-<Layout title={title}>
-  <Header />
-  
-  <main class="py-12">
-    <!-- 3D Visualization -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8">3D Visualization</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
-        {visualizationPricing.map((plan) => (
-          <PricingCard {...plan} />
-        ))}
+<BaseLayout title="Pricing - BlueRoad">
+  <!-- Hero Section -->
+  <section class="py-20 bg-[#111111]">
+    <div class="container">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-8">Our Pricing</h1>
+        <p class="text-xl text-gray-400 mb-12">
+          Transparent pricing for all your digital needs. Choose the package that best fits your project.
+        </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Unreal Engine -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8">Unreal Engine Interactive</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
-        {unrealPricing.map((plan) => (
-          <PricingCard {...plan} />
-        ))}
+  <!-- Pricing Sections -->
+  <section class="py-20 bg-[#1A1A1A]">
+    <div class="container">
+      <!-- Web Development -->
+      <div class="mb-20">
+        <h2 class="text-3xl font-bold text-center mb-12">Web Development</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {webDevPricing.map((plan) => (
+            <div class="bg-[#111111] p-8 rounded-2xl border border-gray-800">
+              <h3 class="text-2xl font-bold mb-4">{plan.title}</h3>
+              <div class="mb-6">
+                <span class="text-4xl font-bold text-[#3B82F6]">{plan.price}</span>
+                <span class="text-gray-400">{plan.unit}</span>
+              </div>
+              <ul class="space-y-4 mb-8">
+                {plan.features.map((feature) => (
+                  <li class="flex items-center text-gray-400">
+                    <svg class="w-5 h-5 text-[#3B82F6] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="/contact"
+                class="block w-full py-3 px-6 text-center rounded-lg bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors"
+              >
+                Get Started
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
 
-    <!-- Video Production -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold text-center mb-8">Video Production</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
-        {videoPricing.map((plan) => (
-          <PricingCard {...plan} />
-        ))}
+      <!-- Design Services -->
+      <div class="mb-20">
+        <h2 class="text-3xl font-bold text-center mb-12">Design Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {designPricing.map((plan) => (
+            <div class="bg-[#111111] p-8 rounded-2xl border border-gray-800">
+              <h3 class="text-2xl font-bold mb-4">{plan.title}</h3>
+              <div class="mb-6">
+                <span class="text-4xl font-bold text-[#3B82F6]">{plan.price}</span>
+                <span class="text-gray-400">{plan.unit}</span>
+              </div>
+              <ul class="space-y-4 mb-8">
+                {plan.features.map((feature) => (
+                  <li class="flex items-center text-gray-400">
+                    <svg class="w-5 h-5 text-[#3B82F6] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="/contact"
+                class="block w-full py-3 px-6 text-center rounded-lg bg-[#3B82F6] text-white font-semibold hover:bg-[#2563EB] transition-colors"
+              >
+                Get Started
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
-    </section>
 
-    <!-- Additional Services -->
-    <section class="bg-gray-50 dark:bg-gray-800 py-12 mt-16">
-      <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-8">Additional Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">Rush Delivery</h3>
-            <ul class="space-y-2">
-              <li>3-day delivery: +50% per item</li>
-              <li>24h delivery: +100% per item</li>
-              <li class="text-red-600">Rush orders: 100% prepayment</li>
+      <!-- Additional Services -->
+      <div class="mt-20">
+        <h2 class="text-3xl font-bold text-center mb-12">Additional Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div class="bg-[#111111] p-8 rounded-2xl border border-gray-800">
+            <h3 class="text-2xl font-bold mb-6">Rush Delivery</h3>
+            <ul class="space-y-4">
+              <li class="text-gray-400">3-day delivery: +50% per item</li>
+              <li class="text-gray-400">24h delivery: +100% per item</li>
+              <li class="text-[#3B82F6]">Rush orders: 100% prepayment</li>
             </ul>
           </div>
-          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">Volume Discounts</h3>
-            <ul class="space-y-2">
-              <li>5+ items: 15% off</li>
-              <li>10+ items: 25% off</li>
-              <li>20+ items: Custom quote</li>
+          <div class="bg-[#111111] p-8 rounded-2xl border border-gray-800">
+            <h3 class="text-2xl font-bold mb-6">Volume Discounts</h3>
+            <ul class="space-y-4">
+              <li class="text-gray-400">5+ items: 15% off</li>
+              <li class="text-gray-400">10+ items: 25% off</li>
+              <li class="text-gray-400">20+ items: Custom quote</li>
             </ul>
           </div>
-          <div class="bg-white dark:bg-gray-900 p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">Payment Terms</h3>
-            <ul class="space-y-2">
-              <li>Standard: 50% advance</li>
-              <li>Rush orders: 100% prepayment</li>
-              <li>Finnish B2B: 14-day terms</li>
+          <div class="bg-[#111111] p-8 rounded-2xl border border-gray-800">
+            <h3 class="text-2xl font-bold mb-6">Payment Terms</h3>
+            <ul class="space-y-4">
+              <li class="text-gray-400">Standard: 50% advance</li>
+              <li class="text-gray-400">Rush orders: 100% prepayment</li>
+              <li class="text-gray-400">Finnish B2B: 14-day terms</li>
             </ul>
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <Footer />
-</Layout>
+  <!-- CTA Section -->
+  <section class="py-20 bg-[#111111]">
+    <div class="container">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8">Need a Custom Solution?</h2>
+        <p class="text-xl text-gray-400 mb-12">
+          Our team can create a tailored package that meets your specific requirements and budget.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center px-8 py-4 bg-[#3B82F6] text-white font-semibold rounded-lg hover:bg-[#2563EB] transition-colors"
+        >
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

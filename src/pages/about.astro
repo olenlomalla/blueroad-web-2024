@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../components/shared/BaseLayout.astro';
+---
+
+<BaseLayout title="About Us - BlueRoad">
+  <main class="min-h-screen bg-[#111111]">
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-bold mb-8 text-white">About BlueRoad</h1>
+          <div class="prose prose-invert max-w-none">
+            <p class="text-xl text-gray-400 mb-12">
+              We are a creative agency specializing in digital solutions that help businesses thrive in the modern world.
+            </p>
+
+            <h2>Our Mission</h2>
+            <p>
+              At BlueRoad, we're dedicated to helping businesses navigate the digital landscape with innovative solutions 
+              and strategic thinking. Our mission is to create meaningful digital experiences that drive growth and success 
+              for our clients.
+            </p>
+
+            <h2>Our Approach</h2>
+            <p>
+              We believe in a collaborative approach that puts our clients' needs first. By combining creativity with 
+              technical expertise, we deliver solutions that not only look great but also perform exceptionally well.
+            </p>
+
+            <h2>Our Services</h2>
+            <ul>
+              <li>Web Design & Development</li>
+              <li>Digital Marketing</li>
+              <li>Brand Strategy</li>
+              <li>Content Creation</li>
+              <li>E-commerce Solutions</li>
+              <li>UI/UX Design</li>
+            </ul>
+
+            <h2>Our Team</h2>
+            <p>
+              Our team consists of passionate professionals who bring diverse skills and perspectives to every project. 
+              From designers and developers to strategists and content creators, we work together to deliver outstanding results.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-[#1A1A1A]">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl font-bold mb-8 text-white">Start Your Project</h2>
+          <p class="text-xl text-gray-400 mb-12">
+            Ready to bring your vision to life? Let's create something amazing together.
+          </p>
+          <a
+            href="/contact"
+            class="inline-flex items-center px-8 py-4 bg-[#3B82F6] text-white font-semibold rounded-lg hover:bg-[#2563EB] transition-colors"
+          >
+            Get in Touch
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  .prose {
+    color: #F3F4F6;
+  }
+  .prose h2 {
+    color: #F3F4F6;
+    font-size: 1.875rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .prose h3 {
+    color: #F3F4F6;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .prose p {
+    color: #9CA3AF;
+    margin-bottom: 1.25rem;
+  }
+  .prose ul {
+    color: #9CA3AF;
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+</style> 

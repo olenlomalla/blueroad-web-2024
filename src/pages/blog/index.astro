@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Image from '../../components/shared/Image.astro';
+
+const blogEntries = await getCollection('blog');
+const sortedEntries = blogEntries.sort((a, b) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const selectedCategory = Astro.url.searchParams.get('category');
+
+const filteredEntries = selectedCategory
+  ? sortedEntries.filter(entry => entry.data.category === selectedCategory)
+  : sortedEntries;
+---
+
+<Layout title="Blog - BlueRoad">
+  <main class="min-h-screen bg-[#111111]">
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-6 text-white">Our Blog</h1>
+        <p class="text-xl text-gray-400 text-center max-w-2xl mx-auto mb-16">
+          Insights, thoughts, and stories about design, technology, and business.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredEntries.map(entry => (
+            <article class="bg-[#1A1A1A] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <a href={`/blog/${entry.slug}`} class="block">
+                {entry.data.image ? (
+                  <Image 
+                    src={entry.data.image} 
+                    alt={entry.data.title}
+                    class="w-full h-48"
+                    width={800}
+                    height={400}
+                  />
+                ) : (
+                  <div class="w-full h-48 bg-[#2A2A2A] flex items-center justify-center">
+                    <span class="text-gray-500">No image available</span>
+                  </div>
+                )}
+                <div class="p-6">
+                  <div class="flex flex-wrap gap-2 mb-3">
+                    {entry.data.tags && entry.data.tags.map(tag => (
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#3B82F6]/10 text-[#3B82F6]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 class="text-xl font-semibold mb-2 text-white">{entry.data.title}</h2>
+                  <p class="text-gray-400 line-clamp-2 mb-4">{entry.data.description}</p>
+                  <time datetime={new Date(entry.data.pubDate).toISOString()} class="text-sm text-gray-500">
+                    {new Date(entry.data.pubDate).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </time>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout> 

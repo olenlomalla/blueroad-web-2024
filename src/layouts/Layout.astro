@@ -2,33 +2,29 @@
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = "BlueRoad - Creative Digital Solutions" } = Astro.props;
+const { title, description = '', image = '/og-image.jpg' } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
     <title>{title}</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body class="min-h-screen bg-white dark:bg-gray-900">
-    <header>
-      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header content will go here -->
-      </nav>
-    </header>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <slot />
-    </main>
-    <footer class="bg-gray-50 dark:bg-gray-800">
-      <!-- Footer content will go here -->
-    </footer>
+    <slot />
   </body>
-</html>
+</html> 

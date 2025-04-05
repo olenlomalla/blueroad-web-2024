@@ -1,0 +1,46 @@
+// src/pages/portfolio/index.astro
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const portfolioItems = await getCollection('portfolio');
+const sortedItems = portfolioItems.sort((a, b) => 
+  new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
+);
+---
+
+<Layout title="Portfolio">
+  <div class="max-w-7xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-8">Portfolio</h1>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {sortedItems.map((item) => (
+        <article class="group">
+          <a href={`/portfolio/${item.slug}`} class="block">
+            <div class="relative overflow-hidden rounded-lg">
+              <img 
+                src={item.data.thumbnail} 
+                alt={item.data.title}
+                class="w-full aspect-video object-cover transition transform group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition"></div>
+            </div>
+            <div class="mt-4">
+              <h2 class="text-xl font-semibold group-hover:text-blue-600">
+                {item.data.title}
+              </h2>
+              {item.data.category && (
+                <span class="text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded mt-2 inline-block">
+                  {item.data.category}
+                </span>
+              )}
+              <p class="text-gray-600 mt-2">{item.data.description}</p>
+              {item.data.client && (
+                <p class="text-sm text-gray-500 mt-2">Client: {item.data.client}</p>
+              )}
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

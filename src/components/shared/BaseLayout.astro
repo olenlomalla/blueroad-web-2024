@@ -1,0 +1,111 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "BlueRoad - Digital Design and Development" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="bg-[#111111] text-white min-h-screen">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#111111]/80 backdrop-blur-sm">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <a href="/" class="text-2xl font-bold">BlueRoad</a>
+          <div class="flex gap-6">
+            <a href="/portfolio" class="hover:text-blue-400 transition-colors">Portfolio</a>
+            <a href="/blog" class="hover:text-blue-400 transition-colors">Blog</a>
+            <a href="/about" class="hover:text-blue-400 transition-colors">About</a>
+            <a href="/contact" class="hover:text-blue-400 transition-colors">Contact</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pt-16">
+      <slot />
+    </main>
+
+    <footer class="bg-[#1A1A1A] mt-20">
+      <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">BlueRoad</h3>
+            <p class="text-gray-400">Digital design and development studio creating exceptional digital experiences.</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Contact</h3>
+            <p class="text-gray-400">hello@blueroad.com</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Follow Us</h3>
+            <div class="flex gap-4">
+              <a href="#" class="text-gray-400 hover:text-white">Twitter</a>
+              <a href="#" class="text-gray-400 hover:text-white">LinkedIn</a>
+              <a href="#" class="text-gray-400 hover:text-white">Instagram</a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+          <p>&copy; {new Date().getFullYear()} BlueRoad. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --blue-500: #3B82F6;
+    --gray-800: #1F2937;
+    --gray-900: #111111;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    section {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+  }
+</style> 

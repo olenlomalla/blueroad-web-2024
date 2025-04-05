@@ -1,0 +1,85 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('portfolio');
+const sortedProjects = projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const categories = [...new Set(projects.map(project => project.data.category))];
+---
+
+<Layout title="Portfolio - BlueRoad">
+  <Header />
+  
+  <main class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">Portfolio</h1>
+    
+    <!-- Category Filter -->
+    <div class="flex flex-wrap gap-4 mb-12">
+      {categories.map((category) => (
+        <button 
+          class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-brand hover:text-white transition-colors"
+          data-category={category}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {sortedProjects.map((project) => (
+        <article class="group">
+          <a href={`/portfolio/${project.slug}`} class="block">
+            <div class="relative overflow-hidden rounded-lg">
+              {project.data.thumbnail && (
+                <img 
+                  src={project.data.thumbnail}
+                  alt={project.data.title}
+                  class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              )}
+              <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="text-white text-lg font-semibold">View Project</span>
+              </div>
+            </div>
+            <div class="mt-4">
+              <h2 class="text-xl font-semibold group-hover:text-brand">
+                {project.data.title}
+              </h2>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                {project.data.category}
+              </p>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+// Category filtering functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('[data-category]');
+  const projects = document.querySelectorAll('article');
+  
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.dataset.category;
+      
+      projects.forEach(project => {
+        const projectCategory = project.querySelector('p').textContent.trim();
+        project.style.display = category === projectCategory ? 'block' : 'none';
+      });
+      
+      buttons.forEach(btn => btn.classList.remove('bg-brand', 'text-white'));
+      button.classList.add('bg-brand', 'text-white');
+    });
+  });
+});
+</script>

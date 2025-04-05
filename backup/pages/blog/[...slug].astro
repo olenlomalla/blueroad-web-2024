@@ -1,0 +1,36 @@
+
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.title}>
+  <article class="max-w-4xl mx-auto px-4 py-8">
+    {entry.data.image && (
+      <img 
+        src={entry.data.image}
+        alt={entry.data.title}
+        class="w-full h-64 object-cover rounded-lg mb-8"
+      />
+    )}
+    <h1 class="text-4xl font-bold mb-4">{entry.data.title}</h1>
+    <div class="flex gap-4 text-gray-500 mb-8">
+      {entry.data.author && <span>{entry.data.author}</span>}
+      <time>{new Date(entry.data.pubDate).toLocaleDateString()}</time>
+    </div>
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+  </article>
+</Layout>

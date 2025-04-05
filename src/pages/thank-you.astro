@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../components/shared/BaseLayout.astro';
+---
+
+<BaseLayout title="Thank You - BlueRoad">
+  <section class="py-16 md:py-24 bg-[#111111]">
+    <div class="container">
+      <div class="max-w-4xl mx-auto text-center px-4">
+        <div class="bg-[#1A1A1A] p-8 md:p-12 rounded-2xl border border-gray-800">
+          <div class="w-16 h-16 bg-[#3B82F6]/20 rounded-full flex items-center justify-center mx-auto mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-bold mb-6">Thank You!</h1>
+          <p class="text-lg text-gray-400 mb-8">
+            We've received your message and will get back to you as soon as possible.
+          </p>
+          <a
+            href="/"
+            class="inline-flex items-center px-6 py-3 bg-[#3B82F6] text-white font-semibold rounded-lg hover:bg-[#2563EB] transition-colors"
+          >
+            Return Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout> 

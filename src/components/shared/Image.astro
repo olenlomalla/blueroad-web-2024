@@ -1,0 +1,90 @@
+---
+import { imageConfig } from '../../config/project.config';
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: string | ImageMetadata;
+  alt: string;
+  class?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+}
+
+const {
+  src,
+  alt,
+  class: className,
+  width = imageConfig.dimensions.width,
+  height = imageConfig.dimensions.height,
+  loading = 'lazy',
+  decoding = 'async'
+} = Astro.props;
+
+// Handle both string paths and imported images
+const optimizedImage = typeof src === 'string'
+  ? src.startsWith('http') || src.startsWith('https')
+    ? await getImage({
+        src,
+        width,
+        height,
+        format: imageConfig.format,
+        quality: imageConfig.quality
+      })
+    : { src: src.startsWith('/') ? src : `/${src}` }
+  : await getImage({
+      src,
+      width,
+      height,
+      format: imageConfig.format,
+      quality: imageConfig.quality
+    });
+
+// Calculate aspect ratio for responsive sizing
+const aspectRatio = (height / width) * 100;
+---
+
+<div class:list={["relative", className]}>
+  <img
+    src={optimizedImage.src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding={decoding}
+    class="absolute inset-0 w-full h-full object-cover"
+    style={`aspect-ratio: ${width}/${height}`}
+  />
+</div>
+
+<style>
+  div {
+    position: relative;
+    width: 100%;
+  }
+  
+  img {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  img.loading {
+    opacity: 0;
+  }
+  
+  img.loaded {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Add loading state management
+  document.addEventListener('astro:page-load', () => {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+      img.classList.add('loading');
+      img.onload = () => img.classList.replace('loading', 'loaded');
+    });
+  });
+</script> 

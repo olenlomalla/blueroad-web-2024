@@ -1,0 +1,148 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const portfolioEntries = await getCollection('portfolio');
+  return portfolioEntries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const content = { entry };
+
+if (!content?.entry?.data) {
+  return Astro.redirect('/404');
+}
+
+const { title, description, pubDate, client, category, image, tags, gallery } = content.entry.data;
+---
+
+<Layout title={title}>
+  <article class="max-w-4xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <div class="flex flex-wrap gap-4 mb-4">
+        {category && (
+          <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300">
+            {category}
+          </span>
+        )}
+        {client && (
+          <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300">
+            Client: {client}
+          </span>
+        )}
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">{title}</h1>
+      <p class="text-xl text-gray-400 mb-6">{description}</p>
+      <div class="flex items-center gap-4 text-gray-400">
+        <time datetime={new Date(pubDate).toISOString()}>
+          {new Date(pubDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+      </div>
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          class="w-full h-96 object-cover rounded-lg mt-8"
+        />
+      )}
+    </header>
+
+    {gallery && Object.keys(gallery).length > 0 && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        {Object.entries(gallery).map(([key, image]) => (
+          <img
+            src={image}
+            alt={`${title} - ${key}`}
+            class="w-full h-64 object-cover rounded-lg"
+          />
+        ))}
+      </div>
+    )}
+
+    {tags && tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        {tags.map(tag => (
+          <span class="px-3 py-1 bg-gray-800 rounded-full text-sm text-gray-300">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <div class="prose prose-invert max-w-none" set:html={content.entry.body} />
+  </article>
+</Layout>
+
+<style is:global>
+  .prose {
+    color: #F3F4F6;
+  }
+  .prose h2 {
+    color: #F3F4F6;
+    font-size: 1.875rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .prose h3 {
+    color: #F3F4F6;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .prose p {
+    color: #9CA3AF;
+    margin-bottom: 1.25rem;
+  }
+  .prose ul, .prose ol {
+    color: #9CA3AF;
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+  }
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  .prose a {
+    color: #3B82F6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .prose a:hover {
+    color: #2563EB;
+    text-decoration: underline;
+  }
+  .prose blockquote {
+    border-left: 4px solid #374151;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: #9CA3AF;
+    font-style: italic;
+  }
+  .prose code {
+    background: #111111;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.875em;
+    color: #F3F4F6;
+  }
+  .prose pre {
+    background: #111111;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+</style> 

@@ -1,0 +1,33 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import CaseStudyForm from '../../../components/CaseStudyForm';
+
+const handleSubmit = async (data: any) => {
+  try {
+    const response = await fetch('/api/case-studies', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit case study');
+    }
+
+    // Redirect to the case studies list
+    window.location.href = '/admin/case-studies';
+  } catch (error) {
+    console.error('Error submitting case study:', error);
+    throw error;
+  }
+};
+---
+
+<Layout title="New Case Study - Admin">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">New Case Study</h1>
+    <CaseStudyForm client:load onSubmit={handleSubmit} />
+  </div>
+</Layout> 

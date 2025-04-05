@@ -1,0 +1,23 @@
+fragment BlogParts on Blog {
+  __typename
+  title
+  publishedAt
+  description
+  category
+  image
+  author
+  tags
+}
+
+fragment PortfolioParts on Portfolio {
+  __typename
+  title
+  publishedAt
+  description
+  client
+  category
+  image
+  gallery
+  tags
+  body
+}

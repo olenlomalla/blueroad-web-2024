@@ -1,85 +1,59 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/shared/BaseLayout.astro';
+import Image from '../../components/shared/Image.astro';
 
-const projects = await getCollection('portfolio');
-const sortedProjects = projects.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
-
-const categories = [...new Set(projects.map(project => project.data.category))];
+const portfolioEntries = await getCollection('portfolio');
+const sortedEntries = portfolioEntries.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
-<Layout title="Portfolio - BlueRoad">
-  <Header />
-  
-  <main class="max-w-7xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold mb-8">Portfolio</h1>
-    
-    <!-- Category Filter -->
-    <div class="flex flex-wrap gap-4 mb-12">
-      {categories.map((category) => (
-        <button 
-          class="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-brand hover:text-white transition-colors"
-          data-category={category}
-        >
-          {category}
-        </button>
-      ))}
-    </div>
+<BaseLayout title="Portfolio - BlueRoad">
+  <main class="min-h-screen bg-[#111111]">
+    <!-- Hero -->
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-6">Our Work</h1>
+        <p class="text-xl text-gray-400 text-center max-w-2xl mx-auto">
+          Explore our latest projects and see how we help businesses bring their vision to life.
+        </p>
+      </div>
+    </section>
 
-    <!-- Projects Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {sortedProjects.map((project) => (
-        <article class="group">
-          <a href={`/portfolio/${project.slug}`} class="block">
-            <div class="relative overflow-hidden rounded-lg">
-              {project.data.thumbnail && (
-                <img 
-                  src={project.data.thumbnail}
-                  alt={project.data.title}
-                  class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              )}
-              <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="text-white text-lg font-semibold">View Project</span>
-              </div>
-            </div>
-            <div class="mt-4">
-              <h2 class="text-xl font-semibold group-hover:text-brand">
-                {project.data.title}
-              </h2>
-              <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                {project.data.category}
-              </p>
-            </div>
-          </a>
-        </article>
-      ))}
-    </div>
+    <!-- Portfolio Grid -->
+    <section class="py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedEntries.map(entry => (
+            <article class="bg-[#1A1A1A] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <a href={`/portfolio/${entry.slug}`} class="block">
+                {entry.data.image ? (
+                  <Image 
+                    src={entry.data.image} 
+                    alt={entry.data.title}
+                    class="w-full h-48"
+                    width={800}
+                    height={400}
+                  />
+                ) : (
+                  <div class="w-full h-48 bg-[#2A2A2A] flex items-center justify-center">
+                    <span class="text-gray-500">{entry.data.title}</span>
+                  </div>
+                )}
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="text-sm text-blue-500">{entry.data.category}</span>
+                    {entry.data.client && (
+                      <span class="text-sm text-gray-500">• {entry.data.client}</span>
+                    )}
+                  </div>
+                  <h2 class="text-xl font-semibold mb-2 text-white">{entry.data.title}</h2>
+                  <p class="text-gray-400 line-clamp-2">{entry.data.description}</p>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   </main>
-
-  <Footer />
-</Layout>
-
-<script>
-// Category filtering functionality
-document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll('[data-category]');
-  const projects = document.querySelectorAll('article');
-  
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      const category = button.dataset.category;
-      
-      projects.forEach(project => {
-        const projectCategory = project.querySelector('p').textContent.trim();
-        project.style.display = category === projectCategory ? 'block' : 'none';
-      });
-      
-      buttons.forEach(btn => btn.classList.remove('bg-brand', 'text-white'));
-      button.classList.add('bg-brand', 'text-white');
-    });
-  });
-});
-</script>
+</BaseLayout>

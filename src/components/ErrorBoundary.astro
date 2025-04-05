@@ -1,0 +1,11 @@
+---
+interface Props {
+  fallback?: string;
+}
+
+const { fallback = "Something went wrong. Please try again later." } = Astro.props;
+---
+
+<div class="bg-[#111111] border border-gray-800 rounded-2xl p-8 text-center">
+  <p class="text-gray-400">{fallback}</p>
+</div> 

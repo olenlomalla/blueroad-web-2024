@@ -1,0 +1,20 @@
+---
+interface Props {
+  title: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+const { title, width = 600, height = 400, className = "w-full h-64 object-cover" } = Astro.props;
+
+// Create a safe placeholder background with a gradient
+const bgColor = "#111111";
+const textColor = "#FFFFFF";
+---
+
+<div class={className} style={`background-color: ${bgColor}; position: relative;`}>
+  <div class="absolute inset-0 flex items-center justify-center text-center p-4">
+    <span class="text-lg font-medium" style={`color: ${textColor};`}>{title}</span>
+  </div>
+</div> 

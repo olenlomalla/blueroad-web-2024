@@ -14,7 +14,17 @@ import OnboardingForm from '../components/OnboardingForm';
   </head>
   <body>
     <main class="min-h-screen bg-gray-50">
-      <OnboardingForm client:load />
+      <div class="max-w-4xl mx-auto p-6">
+        <div class="bg-blue-100 p-4 rounded mb-8">
+          <p class="text-blue-800">
+            Currently using Netlify URL: <strong>https://dreamy-lokum-724dee.netlify.app</strong>
+          </p>
+          <p class="text-sm text-blue-600 mt-2">
+            Note: The domain will be updated to blueroad.ee after the migration is complete.
+          </p>
+        </div>
+        <OnboardingForm client:load />
+      </div>
     </main>
   </body>
 </html> 

@@ -1,0 +1,137 @@
+import { SEOMonitoringService } from '../../services/seo-monitoring';
+
+interface Props {
+  url: string;
+  content: string;
+}
+
+const { url, content } = Astro.props;
+const seoService = SEOMonitoringService.getInstance();
+const results = await seoService.analyzePage(url, content);
+
+<div class="seo-monitor">
+  <h2>SEO Analysis</h2>
+  
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <h3>Keyword Rankings</h3>
+      <ul>
+        {Object.entries(results.metrics.keywordRankings).map(([keyword, rank]) => (
+          <li>
+            {keyword}: <span class="rank">{rank}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    
+    <div class="metric-card">
+      <h3>Backlinks</h3>
+      <p class="score">{results.metrics.backlinks}</p>
+    </div>
+    
+    <div class="metric-card">
+      <h3>Page Speed</h3>
+      <p class="score">{results.metrics.pageSpeed}/100</p>
+    </div>
+    
+    <div class="metric-card">
+      <h3>Mobile Score</h3>
+      <p class="score">{results.metrics.mobileScore}/100</p>
+    </div>
+    
+    <div class="metric-card">
+      <h3>Content Quality</h3>
+      <p class="score">{results.metrics.contentScore}/100</p>
+    </div>
+  </div>
+  
+  <div class="competitors-section">
+    <h3>Competitor Analysis</h3>
+    <div class="competitors-grid">
+      {results.competitors.map((competitor) => (
+        <div class="competitor-card">
+          <h4>{competitor.domain}</h4>
+          <ul>
+            <li>Keyword Overlap: {Math.round(competitor.metrics.keywordOverlap * 100)}%</li>
+            <li>Backlinks: {competitor.metrics.backlinkCount}</li>
+            <li>Content Quality: {competitor.metrics.contentQuality}/100</li>
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+  
+  <div class="recommendations-section">
+    <h3>Recommendations</h3>
+    <ul>
+      {results.recommendations.map((recommendation) => (
+        <li>{recommendation}</li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .seo-monitor {
+    padding: 2rem;
+    background: var(--color-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .metric-card {
+    padding: 1rem;
+    background: var(--color-surface);
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin: 0.5rem 0;
+  }
+  
+  .rank {
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+  
+  .competitors-section {
+    margin: 2rem 0;
+  }
+  
+  .competitors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .competitor-card {
+    padding: 1rem;
+    background: var(--color-surface);
+    border-radius: 4px;
+  }
+  
+  .recommendations-section {
+    margin-top: 2rem;
+  }
+  
+  .recommendations-section ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+  }
+  
+  .recommendations-section li {
+    margin: 0.5rem 0;
+  }
+</style> 

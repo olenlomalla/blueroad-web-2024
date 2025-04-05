@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  price: string;
+  unit?: string;
+  features: string[];
+  isHighlighted?: boolean;
+}
+
+const { title, price, unit = "/view", features, isHighlighted = false } = Astro.props;
+---
+
+<div class={`p-6 rounded-lg border ${isHighlighted ? 'border-brand bg-gray-50 dark:bg-gray-800' : 'border-gray-200 dark:border-gray-700'}`}>
+  <h3 class="text-xl font-semibold mb-2">{title}</h3>
+  <div class="text-3xl font-bold mb-4">
+    {price}<span class="text-sm font-normal text-gray-600 dark:text-gray-400">{unit}</span>
+  </div>
+  <ul class="space-y-3">
+    {features.map((feature) => (
+      <li class="flex items-center text-gray-600 dark:text-gray-400">
+        <svg class="w-5 h-5 text-brand mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        {feature}
+      </li>
+    ))}
+  </ul>
+  <a 
+    href="/contact" 
+    class={`mt-6 block text-center py-2 px-4 rounded-md ${
+      isHighlighted 
+        ? 'bg-brand text-white hover:bg-brand-dark' 
+        : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
+    } transition-colors`}
+  >
+    Get Started
+  </a>
+</div>

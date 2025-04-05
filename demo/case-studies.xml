@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>BlueRoad Case Studies</title>
+    <link>https://blueroad.com/portfolio</link>
+    <description>Portfolio of case studies</description>
+    <item>
+      <title>Smart Svenska</title>
+      <description>A comprehensive language learning platform revolutionizing Swedish education through interactive technology and personalized learning experiences</description>
+      <pubDate>2024-03-15T00:00:00.000Z</pubDate>
+      <client>Svenska Institute</client>
+      <category>Web Design</category>
+      <tags>Web Design,UX/UI,Development,Digital Strategy,E-learning,Language Education,Interactive Design</tags>
+      <images>
+        <main>https://picsum.photos/1920/1080?random=1</main>
+        <design>https://picsum.photos/1920/1080?random=2</design>
+        <prototype>https://picsum.photos/1920/1080?random=3</prototype>
+        <details>https://picsum.photos/1920/1080?random=4</details>
+        <lifestyle>https://picsum.photos/1920/1080?random=5</lifestyle>
+      </images>
+    </item>
+    <item>
+      <title>MyDogDNA</title>
+      <description>A revolutionary genetic testing platform that transforms canine DNA analysis into actionable insights for breeders, veterinarians, and pet owners</description>
+      <pubDate>2024-03-16T00:00:00.000Z</pubDate>
+      <client>Genoscoper Laboratories</client>
+      <category>Web Design</category>
+      <tags>Web Design,UX/UI,Development,Digital Strategy,Bioinformatics,Scientific Visualization,Data Analytics</tags>
+      <images>
+        <main>https://picsum.photos/1920/1080?random=6</main>
+        <design>https://picsum.photos/1920/1080?random=7</design>
+        <prototype>https://picsum.photos/1920/1080?random=8</prototype>
+        <details>https://picsum.photos/1920/1080?random=9</details>
+        <lifestyle>https://picsum.photos/1920/1080?random=10</lifestyle>
+      </images>
+    </item>
+  </channel>
+</rss> 
