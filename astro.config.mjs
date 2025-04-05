@@ -21,12 +21,15 @@ export default defineConfig({
       site: 'https://blueroad.ee',
       items: async () => {
         const posts = await import.meta.glob('./src/content/blog/*.{md,mdx}');
-        return Object.entries(posts).map(([_, post]) => ({
-          title: post.frontmatter.title,
-          pubDate: post.frontmatter.date,
-          description: post.frontmatter.description,
-          link: `/blog/${post.slug}/`,
-        }));
+        return Object.entries(posts).map(([path, post]) => {
+          const slug = path.split('/').pop()?.replace(/\.(md|mdx)$/, '');
+          return {
+            title: post.frontmatter.title,
+            pubDate: post.frontmatter.date,
+            description: post.frontmatter.description,
+            link: `/blog/${slug}/`,
+          };
+        });
       },
     }),
   ],
